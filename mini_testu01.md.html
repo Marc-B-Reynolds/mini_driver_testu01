@@ -1,0 +1,122 @@
+<!doctype html><meta charset="utf-8" lang="en"><style class="fallback">body{visibility:hidden;}</style>
+
+                      **Mini Driver TestU01**
+
+This is a small convenience wrapper around the empirical testing library [TestU01](https://github.com/umontreal-simul/TestU01-2009/) primarily written for testing *bit finalizing* functions.
+
+`TestU01` was originally released in 2007 and the most current official version is from 2009. Therefore is has some `bit-rot` related issues.  The two main ones are:
+
+1. Designed around 32-bit hardware so statistical tests are designed to operate on 32-bit chunks.  So testing PRNGs and bit-finalizers that yield 64-bits (or more) need to jump though hoops to test all of the their output.
+2. The design also assumes single-core and single-threaded operation. Note although 64-bit and muticore consumer hardware started appearing a couple of years eariler I'm not criticizing the authors for this choice.  Their expected number of users was approximately zero and consists of academic researchers/grad students. Plus, of course, the fact that proper multithreaded is a extra PITA.
+
+
+Set-up
+==============================================================
+
+xxx
+
+
+Running
+==============================================================
+
+`TestU01` is composed of a large number of parameterized statistical tests which are grouped to [*batteries*](#batteries) for convenience. This program only wraps executing a subset of the batteries (listed below). Each statistical test can produce one or more statistics. The number of statistics produced for a given test might vary depending on the sample size it is given.
+
+## source
+
+### file based
+
+### internal
+
+## output
+
+## p-values
+
+A statistic's [p-value](https://en.wikipedia.org/wiki/P-value) $(p)$ is mapped to a test value $(t)$ by:
+
+$$ t = \text{min}\left(p,1-p\right)$$
+
+which is then compared against three threshold values:
+
+| type       | command line     | default       | color |
+| :---       | :---             | ---:          |:---:  |
+| report     | `--pshow=VALUE`  | disabled      |plain  |
+| suspicious | `--psus=VALUE`   | 0.001         |yellow |
+| error      | `--perror=VALUE` | $2^{-40}$     |red    |
+
+
+
+Batteries
+==============================================================
+
+Only one battery can executed per run.
+
+
+## Alphabit
+
+`--alphabit=[BLOCKS]` `--block=[BLOCKS]`
+
+The battery is the following 9 tests:
+
+* `smultin_MultinomialBitsOver (L = {2,4,8,16})`
+* `sstring_HammingIndep        (L = {16,32} bits)`
+* `sstring_HammingCorr         (L = 32 bits)`
+* `swalk_RandomWalk1           (length L = {64,320})`
+
+
+## Rabbit
+
+`--rabbit=[BLOCKS]`
+
+The battery setup contains a *defect* where it can attempt to drawn more than the specified number samples. This will cause it to "barf" (exit w/o output) if reading from a file. So for file reads this program limits the specified size to half of that of file size and issues a warning.
+
+The battery is the following 26 tests:
+
+* `smultin_MultinomialBitsOver`
+* `snpair_ClosePairsBitMatch (t = {2,4})`
+* `svaria_AppearanceSpacings`
+* `scomp_LinearComp`
+* `scomp_LempelZiv`
+* `sspectral_Fourier1`
+* `sspectral_Fourier3`
+* `sstring_LongestHeadRun`
+* `sstring_PeriodsInStrings`
+* `sstring_HammingWeight (L = 32 bits)`
+* `sstring_HammingCorr   (L = {32,64,128} bits)`
+* `sstring_HammingIndep  (L = {16,32,64} bits)`
+* `sstring_AutoCor       (lag d = {1,2}).`
+* `sstring_Run`
+* `smarsa_MatrixRank with 32 × 32 matrices.`
+* `smarsa_MatrixRank with 320 × 320 matrices.`
+* `smarsa_MatrixRank with 1024 × 1024 matrices.`
+* `swalk_RandomWalk1 with walks of length L = 128.`
+* `swalk_RandomWalk1 with walks of length L = 1024.`
+* `swalk_RandomWalk1 with walks of length L = 10016`
+
+## SmallCrush
+
+10 tests
+
+* `smarsa_BirthdaySpacings`
+* `sknuth_Collision`
+* `sknuth_Gap`
+* `sknuth_SimpPoker`
+* `sknuth_CouponCollector`
+* `sknuth_MaxOft`
+* `svaria_WeightDistrib`
+* `smarsa_MatrixRank`
+* `sstring_HammingIndep`
+* `swalk_RandomWalk1`
+
+
+## Crush
+
+96 tests
+
+Selected Test Summaries
+==============================================================
+
+
+
+
+
+<!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style><script src="markdeep.min.js" charset="utf-8"></script><script src="https://morgan3d.github.io/markdeep/latest/markdeep.min.js" charset="utf-8"></script><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
