@@ -1,4 +1,7 @@
 *.bin
+*~
 mini_testu01
 makedata
 hashvm.h
+mini_filter.c
+mini_filter
