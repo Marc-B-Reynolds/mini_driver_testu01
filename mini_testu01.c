@@ -561,7 +561,12 @@ void print_row(uint32_t stat_id)
 
   // the p-value, closing divider and newline
   print_pvalue(stdout, bbattery_pVal[stat_id]);
-  printf("%s\n", div);
+
+  // mark the suspect test in rabbit if we're reporting it
+  if (battery == run_rabbit && stat_id == 0)
+    printf("%s ← suspect test (see docs)\n", div);
+  else
+    printf("%s\n", div);
 }
 
 // per trial report

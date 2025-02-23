@@ -9,6 +9,9 @@ This is a small convenience wrapper around the empirical testing library [TestU0
 1. Designed around 32-bit hardware so statistical tests are designed to operate on 32-bit chunks.  So testing PRNGs and bit-finalizers that yield 64-bits (or more) need to jump though hoops to test all of the their output.
 2. The design also assumes single-core and single-threaded operation. Note although 64-bit and muticore consumer hardware started appearing a couple of years eariler I'm not criticizing the authors for this choice.  Their expected number of users was approximately zero and consists of academic researchers/grad students. Plus, of course, the fact that proper multithreaded is a extra PITA.
 
+!!! TIP
+    **SORRY:** Just a stub of documentation.
+
 
 Set-up
 ==============================================================
@@ -68,6 +71,9 @@ The battery is the following 9 tests:
 `--rabbit=[BLOCKS]`
 
 The battery setup contains a *defect* where it can attempt to drawn more than the specified number samples. This will cause it to "barf" (exit w/o output) if reading from a file. So for file reads this program limits the specified size to half of that of file size and issues a warning.
+
+!!! TIP
+    **NOTE:** The test `smultin_MultinomialBitsOver` in rabbit is a specialized version (SEE `DoMultinom` in `battery.c`) which consistently produces warning or errors including when being run on *real random* datafiles. Conversely other batteries which run the non-specialized version version of the test do not on the same data. The driver does **not** filter these out but marks the test in reporting (and any totals from this test are including in the summary). I should probably add an option to filter out.
 
 The battery is the following 26 tests:
 
